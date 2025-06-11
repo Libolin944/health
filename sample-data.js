@@ -1,10 +1,21 @@
 // 示例数据初始化脚本
 
 // 初始化示例数据
-function initSampleData() {
+function initSampleData(forceInit = false) {
     // 检查是否已经初始化过示例数据
-    if (localStorage.getItem('sampleDataInitialized')) {
+    if (!forceInit && localStorage.getItem('sampleDataInitialized')) {
         console.log('示例数据已初始化');
+        return;
+    }
+    
+    // 如果是GitHub Pages等静态环境，或者没有任何数据，强制初始化
+    const hasAnyData = localStorage.getItem('familyMembers') || 
+                      localStorage.getItem('healthRecords') || 
+                      localStorage.getItem('reminders');
+    
+    if (!hasAnyData || forceInit) {
+        console.log('正在初始化示例数据...');
+    } else {
         return;
     }
     
@@ -253,3 +264,13 @@ function initSampleData() {
 document.addEventListener('DOMContentLoaded', () => {
     initSampleData();
 });
+
+// 提供全局函数用于手动重新初始化数据（调试用）
+window.resetSampleData = function() {
+    initSampleData(true);
+    // 重新加载页面以显示新数据
+    window.location.reload();
+};
+
+// 在控制台提示用户如何重置数据
+console.log('如果数据没有显示，请在控制台运行: resetSampleData()');
