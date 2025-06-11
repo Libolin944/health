@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家庭健康档案库</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>家庭健康档案库</h1>
+            <nav>
+                <button id="nav-dashboard" class="active">总览</button>
+                <button id="nav-family">家庭成员</button>
+                <button id="nav-records">健康记录</button>
+                <button id="nav-reminders">提醒事项</button>
+                <button id="nav-warning">健康预警</button>
+                <button id="nav-analysis">健康分析</button>
+                <button id="nav-health-plan">健康计划</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- 总览页面 -->
+            <section id="dashboard" class="page active">
+                <h2>家庭健康仪表盘</h2>
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <h3>家庭成员</h3>
+                        <p id="family-count">0 人</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>待办提醒</h3>
+                        <p id="reminder-count">0 项</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>健康预警</h3>
+                        <p id="warning-count">0 项</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>健康计划</h3>
+                        <p id="plan-count">0 项</p>
+                    </div>
+                </div>
+                <div class="dashboard-recent">
+                    <h3>最近健康记录</h3>
+                    <div id="recent-records">
+                        <p>暂无记录</p>
+                    </div>
+                </div>
+                <div class="quick-actions">
+                    <button id="add-family-btn">添加家庭成员</button>
+                    <button id="add-record-btn">添加健康记录</button>
+                    <button id="add-reminder-btn">添加健康提醒</button>
+                </div>
+            </section>
+
+            <!-- 家庭成员页面 -->
+            <section id="family" class="page">
+                <h2>家庭成员</h2>
+                <div class="action-bar">
+                    <button id="add-family-member">添加成员</button>
+                </div>
+                <div id="family-list" class="list-container">
+                    <!-- 成员列表将在这里动态生成 -->
+                </div>
+            </section>
+
+            <!-- 健康记录页面 -->
+            <section id="records" class="page">
+                <h2>健康记录</h2>
+                <div class="action-bar">
+                    <select id="record-member-filter">
+                        <option value="all">所有成员</option>
+                    </select>
+                    <select id="record-type-filter">
+                        <option value="all">所有类型</option>
+                        <option value="checkup">体检记录</option>
+                        <option value="medication">用药记录</option>
+                        <option value="symptom">症状记录</option>
+                        <option value="other">其他记录</option>
+                    </select>
+                    <button id="add-health-record">添加记录</button>
+                </div>
+                <div id="health-records" class="list-container">
+                    <!-- 健康记录列表将在这里动态生成 -->
+                </div>
+            </section>
+
+            <!-- 提醒事项页面 -->
+            <section id="reminders" class="page">
+                <h2>提醒事项</h2>
+                <div class="action-bar">
+                    <select id="reminder-member-filter">
+                        <option value="all">所有成员</option>
+                    </select>
+                    <select id="reminder-type-filter">
+                        <option value="all">所有类型</option>
+                        <option value="checkup">体检提醒</option>
+                        <option value="medication">服药提醒</option>
+                        <option value="other">其他提醒</option>
+                    </select>
+                    <button id="add-reminder">添加提醒</button>
+                </div>
+                <div id="reminder-list" class="list-container">
+                    <!-- 提醒事项列表将在这里动态生成 -->
+                </div>
+            </section>
+
+            <!-- 健康预警页面 -->
+            <section id="warning" class="page">
+                <h2>健康预警</h2>
+                <div class="action-bar">
+                    <select id="warning-member-filter">
+                        <option value="all">所有成员</option>
+                    </select>
+                    <select id="warning-type-filter">
+                        <option value="all">所有类型</option>
+                        <option value="bloodPressure">血压异常</option>
+                        <option value="bloodSugar">血糖异常</option>
+                        <option value="weight">体重异常</option>
+                        <option value="heartRate">心率异常</option>
+                    </select>
+                    <button id="check-warnings">检查预警</button>
+                </div>
+                <div id="health-warnings" class="list-container">
+                    <!-- 健康预警列表将在这里动态生成 -->
+                </div>
+            </section>
+            
+            <!-- 健康分析页面 -->
+            <section id="analysis" class="page">
+                <h2>健康趋势分析</h2>
+                <div class="action-bar">
+                    <select id="analysis-member">
+                        <option value="">选择家庭成员</option>
+                    </select>
+                    <select id="analysis-type">
+                        <option value="weight">体重趋势</option>
+                        <option value="bloodPressure">血压趋势</option>
+                        <option value="bloodSugar">血糖趋势</option>
+                    </select>
+                    <select id="analysis-period">
+                        <option value="month">近一个月</option>
+                        <option value="quarter">近三个月</option>
+                        <option value="halfYear">近半年</option>
+                        <option value="year">近一年</option>
+                    </select>
+                </div>
+                <div id="chart-container">
+                    <p class="placeholder-text">请选择家庭成员和分析类型</p>
+                    <canvas id="analysis-chart"></canvas>
+                </div>
+            </section>
+            
+            <!-- 健康计划页面 -->
+            <section id="health-plan" class="page">
+                <h2>个性化健康计划</h2>
+                <div class="action-bar">
+                    <select id="plan-member-filter">
+                        <option value="all">所有成员</option>
+                    </select>
+                    <select id="plan-type-filter">
+                        <option value="all">所有类型</option>
+                        <option value="diet">饮食计划</option>
+                        <option value="exercise">运动计划</option>
+                        <option value="checkup">体检计划</option>
+                    </select>
+                    <button id="add-health-plan">添加计划</button>
+                    <button id="generate-plan-suggestion">生成建议</button>
+                </div>
+                <div id="health-plans" class="list-container">
+                    <!-- 健康计划列表将在这里动态生成 -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 模态框 -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body">
+                <!-- 模态框内容将动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="app-records.js"></script>
+    <script src="app-reminders.js"></script>
+    <script src="app-analysis.js"></script>
+    <script src="app-warning.js"></script>
+    <script src="app-health-plan.js"></script>
+    <script src="sample-data.js"></script>
+</body>
+</html>
